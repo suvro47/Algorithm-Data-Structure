@@ -1,0 +1,216 @@
+Problem Link : https://devskill.com/CodingProblems/ViewProblem/417
+
+#include<bits/stdc++.h>
+using namespace std;
+
+#define sz 100005
+typedef long long ll;
+
+int n,ans;
+string s;
+
+struct info
+{
+    int cnt[26];
+    info(){
+        for(int i=0; i<26; i++)
+            cnt[i] = 0;
+    }
+} tree[sz*4];
+
+
+void init(int node,int b,int e)
+{
+    if( b == e ){
+        tree[node].cnt[s[b]-'a'] = 1;
+        return;
+    }
+    int mid = (b+e)/2;
+
+    int L = node*2;
+    int R = (node*2)+1;
+
+    init(L , b, mid );
+    init(R , mid+1, e);
+
+    for(int i=0; i<26; i++)
+        tree[node].cnt[i] = tree[L].cnt[i] + tree[R].cnt[i];
+}
+
+int query(int node,int b,int e,int i,int j,char ch)
+{
+    if( i > e || j < b ) return 0;
+    else if( b >= i && e <= j )
+        return tree[node].cnt[ch-'a'];
+
+    int mid = (b+e)/2;
+    int L = node*2;
+    int R = node*2+1;
+
+    int q1 = query(L,b,mid,i,j,ch);
+    int q2 = query(R,mid+1,e,i,j,ch);
+
+    return q1+q2;
+}
+
+
+void update(int node,int b,int e,int i,int ch)
+{
+    if( i>e || i<b ) return;
+    else if( b == e ){
+        tree[node].cnt[s[b]-'a'] = 0;
+        s[b] = ch;
+        tree[node].cnt[ch-'a'] = 1;
+        return;
+    }
+
+    int mid = (b+e)/2;
+    int L = node*2;
+    int R = node*2+1;
+
+    update(L,b,mid,i,ch);
+    update(R,mid+1,e,i,ch);
+
+    for(int i=0; i<26; i++)
+        tree[node].cnt[i] = tree[L].cnt[i] + tree[R].cnt[i];
+}
+
+
+int main()
+{
+    cin>>s;
+    n = s.size();
+    init(1,0,n-1);
+    int q;
+    scanf("%d",&q);
+    while(q--){
+        int qt , i, j;
+        char ch;
+        scanf("%d",&qt);
+        if( qt == 1 ){
+            cin>>i>>ch;
+            update(1,0,n-1,i,ch);
+        }
+        else{
+            cin>>ch>>i>>j;
+            int ans = query(1,0,n-1,i,j,ch);
+            printf("%d\n",ans);
+        }
+    }
+
+    return 0;
+
+}
+
+
+Problem Link : https://codeforces.com/problemset/problem/1234/D
+
+
+#include<bits/stdc++.h>
+using namespace std;
+
+#define sz 100005
+typedef long long ll;
+
+string s;
+int n, hbena[26];
+
+struct info
+{
+    int cnt[26];
+    info(){
+        for(int i=0; i<26; i++)
+            cnt[i] = 0;
+    }
+}tree[sz*4];
+
+
+void init(int node,int b,int e)
+{
+    if( b == e ){
+        tree[node].cnt[s[b]-'a'] = 1;
+        return;
+    }
+    int mid = (b+e)/2;
+
+    int L = node*2;
+    int R = (node*2)+1;
+
+    init(L , b, mid );
+    init(R , mid+1, e);
+
+    for(int i=0; i<26; i++)
+        tree[node].cnt[i] = tree[L].cnt[i] + tree[R].cnt[i];
+}
+
+void query(int node,int b,int e,int i,int j)
+{
+    if( i > e || j < b ) return;
+    else if( b >= i && e <= j ){
+        for(int k=0; k<26; k++){
+            if( tree[node].cnt[k] > 0 )
+            hbena[k] = 1;
+        }
+        return;
+    }
+
+    int mid = (b+e)/2;
+    int L = node*2;
+    int R = node*2+1;
+
+    query(L,b,mid,i,j);
+    query(R,mid+1,e,i,j);
+}
+
+void update(int node,int b,int e,int i,int ch)
+{
+    if( i>e || i<b ) return;
+    else if( b == e ){
+        tree[node].cnt[s[b]-'a']--;
+        s[b] = ch;
+        tree[node].cnt[ch-'a']++;
+        return;
+    }
+
+    int mid = (b+e)/2;
+    int L = node*2;
+    int R = node*2+1;
+
+    update(L,b,mid,i,ch);
+    update(R,mid+1,e,i,ch);
+
+    for(int i=0; i<26; i++)
+        tree[node].cnt[i] = tree[L].cnt[i] + tree[R].cnt[i];
+}
+
+
+
+int main()
+{
+    cin>>s;
+    n = s.size();
+    init(1,0,n-1);
+    int q;
+    scanf("%d",&q);
+    while(q--){
+        int qt , i, j;
+        char ch;
+        scanf("%d",&qt);
+        if( qt == 1 ){
+            cin>>i>>ch;
+            update(1,0,n-1,i-1,ch);
+        }
+        else{
+            cin>>i>>j;
+            memset(hbena,0,sizeof hbena);
+            query(1,0,n-1,i-1,j-1);
+            int ans = 0;
+            for(int i=0; i<26; i++) if( hbena[i] == 1 ) ans++;
+            printf("%d\n",ans);
+        }
+    }
+
+    return 0;
+
+}
+
