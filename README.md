@@ -1,1 +1,1 @@
-# CP-Algorithm
+# Competitive Programming Algorithm
