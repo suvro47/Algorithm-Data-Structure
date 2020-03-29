@@ -1,10 +1,10 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-int n , k , a[1005], taken[1005];
+int n , k , a[1005];
 vector<int>res;
 
-void Combination(int idx)
+void Combination(int last)
 {
     if(res.size()==k){
         for(auto j:res) cout<<j<<' ';
@@ -12,15 +12,11 @@ void Combination(int idx)
         return;
     }
 
-    for(int i=idx; i<n ; i++){
-        if( !taken[i] ){
-            taken[i] = 1;
-            res.push_back(a[i]);
-            Combination(i+1);
-            taken[i] = 0;
-            res.pop_back();
-            while(a[i]==a[i+1]) i++;
-        }
+    for(int i=last; i<n ; i++){
+        res.push_back(a[i]);
+        Combination(i+1);
+        res.pop_back();
+        while( i+1 < n && a[i+1] == a[i] ) i++;
     }
 }
 
