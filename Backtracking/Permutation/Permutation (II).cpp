@@ -18,7 +18,7 @@ void permutation()
             permutation();
             res.pop_back();
             taken[i] = 0;
-            while( a[i] == a[i+1] ) i++;
+            while( i+1 < n && a[i+1] == a[i] ) i++;
         }
     }
 }
