@@ -25,10 +25,10 @@ void permutation()
         cout<<endl;
     }
 
-    for(int i=1; i<=n ; i++){
-        if( !taken[i] ){
+    for(int i=1; i<=n ; i++){  /// all possible option
+        if( !taken[i] ){   /// i'th index is used or not
             taken[i] = 1;
-            res.push_back(i);
+            res.push_back(i); /// push the i'th value into res
             permutation();
             res.pop_back();
             taken[i] = 0;
