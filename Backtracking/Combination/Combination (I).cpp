@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-int n , k , taken[1001];
+int n , k ;
 vector<int>res;
 
 void Combination(int last)
@@ -11,14 +11,10 @@ void Combination(int last)
         cout<<endl;
     }
 
-    for(int i=last ; i<=n ; i++){
-        if( !taken[i] ){
-            taken[i] = 1;
-            res.push_back(i);
-            Combination(i+1);
-            res.pop_back();
-            taken[i] = 0;
-        }
+    for(int i=last; i<=n ; i++){
+        res.push_back(i);
+        Combination(i+1);
+        res.pop_back();
     }
 }
 
@@ -26,7 +22,7 @@ void Combination(int last)
 int main()
 {
     cin>>n>>k;
-    Combination(0);
+    Combination(1);
 
 
     return 0;
