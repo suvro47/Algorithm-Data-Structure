@@ -1,16 +1,4 @@
 
-/*
-
-   Input  : 3
-   Output :
-   1 2 3
-   1 2
-   1 3
-   1
-   2 3
-   2
-   3
-*/
 
 #include<bits/stdc++.h>
 using namespace std;
@@ -23,23 +11,20 @@ int n , taken[sz];
 
 void subset(int last)
 {
-    for(int i=last+1; i<=n ; i++){
-        if(!taken[i]){
-            taken[i] = 1;
-            res.push_back(i);
-            subset(i);
-            for(auto j:res) cout<<j<<' ';   /// in case of given array print array[j]
-            cout<<endl;
-            res.pop_back();
-            taken[i] = 0;
-        }
+    for(auto j:res) cout<<j<<' ';   /// in case of given array print array[j]
+    cout<<endl;
+
+    for(int i=last; i<=n ; i++){
+        res.push_back(i);
+        subset(i+1);
+        res.pop_back();
     }
 }
 
 int main()
 {
     cin>>n;
-    subset(0);
+    subset(1);
 
     return 0;
 }
