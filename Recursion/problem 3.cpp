@@ -16,24 +16,24 @@ Output:
 */
 
 
+
+
 #include<bits/stdc++.h>
 using namespace std;
 
-void OddErase(int *a,int i, int n)
+void fun( int i, int j, int n, int *arr )
 {
-    if( i == n ) return;
-    if( a[i]%2 ) a[i] = -1;
-    OddErase(a,i+1,n);
+    if( i >= n ) return;
+    if( arr[i]&1 ) fun(i+1,j,n,arr);
+    arr[j] = arr[i];
+    fun(i+1,j+1,n,arr);
+
 }
 
 int main()
 {
-    int n,arr[100];
-    cin>>n;
-    for(int i=0; i<n; i++) cin>>arr[i];
-    OddErase(arr,0,n);
-    for(int i=0; i<n; i++){
-        if( arr[i] != -1 )
-            printf("%d ",arr[i]);
-    }
+      int a[5] = {22, 45, 66, 32, 69};
+      fun(0,0,5,a);
+
+      for(int i=0; i<5; i++) cout<<a[i]<<endl;
 }
