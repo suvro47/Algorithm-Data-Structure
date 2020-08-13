@@ -15,9 +15,9 @@ Output:
 #include<bits/stdc++.h>
 using namespace std;
 
-int Fun(int x,int n)
+int Fun( int n, int x )
 {
-    if( n < 2 ) return 1;
+    if( n == 0 ) return 1;
     return pow(x,n-1) + Fun(x,n-1);
 }
 
